@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $1 == 'install' ]
+then
+ cd /SoftNEP/
+ git clone $2 
+ folder_name=$(basename -s .git "$2")
+ cd $folder_name
+ database_name='softnep_'${folder_name//-/_}
+ composer install
+ php artisan cache:clear
+ php artisan route:clear
+ php artisan view:clear
+ php artisan config:clear
+ #cp .env.example .env
+ sed -e "/DB_DATABASE/ c DB_DATABASE=$database_name" -e '/DB_USERNAME/ c DB_USERNAME=root' -e '/DB_PASSWORD/ c DB_PASSWORD=' .env.example > .env
+ php artisan key:generate
+ cd /opt/lampp/bin/
+ ./mysql -u root <<MYSQL_SCRIPT
+ CREATE DATABASE IF NOT EXISTS ${database_name};
+MYSQL_SCRIPT
+ cd /SoftNEP/$folder_name
+ php artisan migrate --seed
+fi
+	
