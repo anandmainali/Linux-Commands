@@ -9,7 +9,6 @@ then
   /opt/brave.com/brave/brave-browser &
   /opt/PhpStorm-193.5233.101/bin/phpstorm.sh &
   /home/anand/Hubstaff/HubstaffClient.bin.x86_64 &
-  #sudo /opt/lampp/xampp start &
 fi
 
 if [[ ( "$1" == 'stop' || "$1" == 'end' ) ]];
@@ -20,5 +19,4 @@ then
   pkill /opt/brave.com/brave/brave-browser
   pkill /opt/PhpStorm-193.5233.101/bin/phpstorm.sh
   pkill /home/anand/Hubstaff/HubstaffClient.bin.x86_64
-  #sudo /opt/lampp/xampp stop
 fi
